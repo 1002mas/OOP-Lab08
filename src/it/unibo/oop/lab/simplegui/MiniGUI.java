@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -34,8 +36,12 @@ public class MiniGUI {
     public MiniGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
+        //JLabel northLabel = new JLabel();
+        final JPanel centralPanel = new JPanel();
+        centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Print a random number on standard output");
-        canvas.add(write, BorderLayout.CENTER);
+        centralPanel.add(write);
+        canvas.add(centralPanel, BorderLayout.CENTER);
         frame.setContentPane(canvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         /*
@@ -52,22 +58,23 @@ public class MiniGUI {
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
-         * enough for a single screen setup. In case of multiple monitors, the
-         * primary is selected. In order to deal coherently with multimonitor
-         * setups, other facilities exist (see the Java documentation about this
-         * issue). It is MUCH better than manually specify the size of a window
-         * in pixel: it takes into account the current resolution.
+         * enough for a single screen setup. In case of multiple monitors, the primary
+         * is selected. In order to deal coherently with multimonitor setups, other
+         * facilities exist (see the Java documentation about this issue). It is MUCH
+         * better than manually specify the size of a window in pixel: it takes into
+         * account the current resolution.
          */
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / PROPORTION, sh / PROPORTION);
         /*
-         * Instead of appearing at (0,0), upper left corner of the screen, this
-         * flag makes the OS window manager take care of the default positioning
-         * on screen. Results may vary, but it is generally the best choice.
+         * Instead of appearing at (0,0), upper left corner of the screen, this flag
+         * makes the OS window manager take care of the default positioning on screen.
+         * Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.pack();
         /*
          * OK, ready to pull the frame onscreen
          */
@@ -75,10 +82,11 @@ public class MiniGUI {
     }
 
     /**
-     * @param args ignored
+     * @param args
+     *                 ignored
      */
     public static void main(final String... args) {
-       new MiniGUI().display();
+        new MiniGUI().display();
     }
 
 }
