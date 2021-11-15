@@ -36,7 +36,8 @@ public class MiniGUI {
     public MiniGUI() {
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
-        //JLabel northLabel = new JLabel();
+        final JLabel northLabel = new JLabel("0");
+        canvas.add(northLabel, BorderLayout.NORTH);
         final JPanel centralPanel = new JPanel();
         centralPanel.setLayout(new BoxLayout(centralPanel, BoxLayout.X_AXIS));
         final JButton write = new JButton("Print a random number on standard output");
