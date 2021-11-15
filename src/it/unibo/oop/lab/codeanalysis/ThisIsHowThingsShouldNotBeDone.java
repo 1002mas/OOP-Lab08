@@ -12,6 +12,7 @@ import java.util.Collection;
  *
  */
 public final class ThisIsHowThingsShouldNotBeDone {
+    private static final int NUMBERS = 43;
 
     /*
      * PMD complains:
@@ -43,7 +44,6 @@ public final class ThisIsHowThingsShouldNotBeDone {
      * Missing Javadoc
      */
     public static void main(final String[] args) {
-        final int numbers = 43;
         /*
          * PMD Complains:
          * 
@@ -61,7 +61,7 @@ public final class ThisIsHowThingsShouldNotBeDone {
          * 
          * What does it mean "43"? It's a magic number!
          */
-        for (int i = 0; i < numbers; i++) {
+        for (int i = 0; i < ThisIsHowThingsShouldNotBeDone.NUMBERS; i++) {
             c.add(new Object());
         }
         /*
