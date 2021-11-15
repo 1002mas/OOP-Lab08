@@ -51,7 +51,9 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(rng.nextInt());
+                final int n = rng.nextInt();
+                northLabel.setText(Integer.toString(n));
+                System.out.println(n);
             }
         });
     }
