@@ -14,7 +14,9 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() {
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        // this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        SettingsLoader.loadSettings();
+        this.model = new DrawNumberImpl(SettingsLoader.getMinimum(), SettingsLoader.getMaximum(), SettingsLoader.getAttempts());
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
         this.view.start();
@@ -44,7 +46,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
 
     /**
      * @param args
-     *            ignored
+     *                 ignored
      */
     public static void main(final String... args) {
         new DrawNumberApp();
