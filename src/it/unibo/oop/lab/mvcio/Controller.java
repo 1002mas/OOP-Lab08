@@ -1,9 +1,22 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
+
+import it.unibo.oop.lab.iogui.BadIOGUI;
+
 /**
  * 
  */
 public class Controller {
+    private static final String DEFAULT_FILE = System.getProperty("user.home") + System.getProperty("file.separator")
+            + "output.txt";
+
+    private File f;
 
     /*
      * This class must implement a simple controller responsible of I/O access. It
@@ -27,5 +40,42 @@ public class Controller {
      * System.getProperty("file.separator"). The combined use of those methods leads
      * to a software that runs correctly on every platform.
      */
+    /*
+     * @JavaDoc
+     */
 
+    public final void setCurrentFile(final URI path) {
+        if (path != null) {
+            try {
+                f = new File(path);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Controller() {
+        this.f = new File(DEFAULT_FILE);
+    }
+
+    public final File getCurrentFile() {
+        return new File(f.getAbsolutePath());
+    }
+
+    public final String getFilePath() {
+        return f.getAbsolutePath();
+    }
+
+    public final void writeString(final String s) throws IOException {
+        if (f != null) {
+            final OutputStream writeStream = new FileOutputStream(f);
+            final DataOutputStream writer = new DataOutputStream(writeStream);
+            try (writeStream; writer) {
+                writer.writeChars(s);
+            } finally {
+                writeStream.close();
+                writer.close();
+            }
+        }
+    }
 }
