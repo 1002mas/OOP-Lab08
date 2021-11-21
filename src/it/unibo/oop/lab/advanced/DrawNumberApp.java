@@ -1,14 +1,17 @@
 package it.unibo.oop.lab.advanced;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    private static final int MIN = 0;
-    private static final int MAX = 100;
-    private static final int ATTEMPTS = 10;
+    // private static final int MIN = 0;
+    // private static final int MAX = 100;
+    // private static final int ATTEMPTS = 10;
     private final DrawNumber model;
-    private final DrawNumberView view;
+    private final List<DrawNumberView> view;
 
     /**
      * 
@@ -17,20 +20,31 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         // this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
         SettingsLoader.loadSettings();
         this.model = new DrawNumberImpl(SettingsLoader.getMinimum(), SettingsLoader.getMaximum(), SettingsLoader.getAttempts());
-        this.view = new DrawNumberViewImpl();
-        this.view.setObserver(this);
-        this.view.start();
+        this.view = new ArrayList<>();
+        this.view.add(new DrawNumberViewImpl());
+        this.view.add(new DrawNumberViewLog());
+        this.view.add(new DrawNumberViewStdout());
+        for (final DrawNumberView v : view) {
+            v.setObserver(this);
+            v.start();
+        }
     }
 
     @Override
     public void newAttempt(final int n) {
         try {
             final DrawResult result = model.attempt(n);
-            this.view.result(result);
+            for (final DrawNumberView v : view) {
+                v.result(result);
+            }
         } catch (IllegalArgumentException e) {
-            this.view.numberIncorrect();
+            for (final DrawNumberView v : view) {
+                v.numberIncorrect();
+            }
         } catch (AttemptsLimitReachedException e) {
-            view.limitsReached();
+            for (final DrawNumberView v : view) {
+                v.limitsReached();
+            }
         }
     }
 
