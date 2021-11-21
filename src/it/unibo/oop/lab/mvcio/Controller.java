@@ -44,7 +44,11 @@ public class Controller {
      * @JavaDoc
      */
 
-    public final void setCurrentFile(final URI path) {
+    public Controller() {
+        this.f = new File(DEFAULT_FILE);
+    }
+
+    public final void setCurrentFile(final String path) {
         if (path != null) {
             try {
                 f = new File(path);
@@ -52,10 +56,6 @@ public class Controller {
                 e.printStackTrace();
             }
         }
-    }
-
-    public Controller() {
-        this.f = new File(DEFAULT_FILE);
     }
 
     public final File getCurrentFile() {
