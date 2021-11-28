@@ -7,11 +7,15 @@ import java.io.IOException;
 
 public final class DrawNumberViewLog implements DrawNumberView {
     private static final String NEW_GAME = ": a new game starts!";
-    private static final String PATH = System.getProperty("user.home") + System.getProperty("file.separator") + "match_log.txt";
+    private static final String DEFAULT_PATH = System.getProperty("user.home") + System.getProperty("file.separator") + "match_log.txt";
     private final File logFile;
 
+    public DrawNumberViewLog(final String filePath) {
+        logFile = new File(filePath);
+    }
+
     public DrawNumberViewLog() {
-        logFile = new File(PATH);
+        this(DEFAULT_PATH);
     }
 
     @Override
@@ -30,17 +34,7 @@ public final class DrawNumberViewLog implements DrawNumberView {
 
     @Override
     public void result(final DrawResult res) {
-        switch (res) {
-        case YOURS_HIGH:
-        case YOURS_LOW:
-            writeOnFile(res.getDescription());
-            return;
-        case YOU_WON:
-            writeOnFile(res.getDescription() + NEW_GAME);
-            break;
-        default:
-            throw new IllegalStateException("Unexpected result: " + res);
-        }
+        writeOnFile(res.getDescription());
     }
 
     @Override
