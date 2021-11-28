@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 public final class SimpleGUI {
 
     private final JFrame frame = new JFrame();
-    private final Controller controller = new Controller();
+    private final Controller controller;
 
     /*
      * Once the Controller is done, implement this class in such a way that:
@@ -42,9 +42,11 @@ public final class SimpleGUI {
      */
 
     /**
+     * @param ctrl Gui controller
      * builds a new {@link SimpleGUI}.
      */
-    public SimpleGUI() {
+    public SimpleGUI(final Controller ctrl) {
+        this.controller = ctrl;
         /*
          * Make the frame half the resolution of the screen. This very method is enough
          * for a single screen setup. In case of multiple monitors, the primary is
@@ -91,6 +93,6 @@ public final class SimpleGUI {
     }
 
     public static void main(final String[] args) {
-        new SimpleGUI().show();
+        new SimpleGUI(new Controller()).show();
     }
 }
