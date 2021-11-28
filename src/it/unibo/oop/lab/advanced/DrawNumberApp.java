@@ -7,19 +7,20 @@ import java.util.List;
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    // private static final int MIN = 0;
-    // private static final int MAX = 100;
-    // private static final int ATTEMPTS = 10;
     private final DrawNumber model;
     private final List<DrawNumberView> view;
 
     /**
-     * 
+     * @param settingsFileName name of the file where the game setting are
      */
-    public DrawNumberApp() {
+    public DrawNumberApp(final String settingsFileName) {
         // this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
-        SettingsLoader.loadSettings();
-        this.model = new DrawNumberImpl(SettingsLoader.getMinimum(), SettingsLoader.getMaximum(), SettingsLoader.getAttempts());
+        SettingsLoader sett = new SettingsLoader();
+        if (!sett.getFromSettingsFromFile(settingsFileName)) {
+            sett = new SettingsLoader();
+        }
+        System.out.println(sett.getMaximum());
+        this.model = new DrawNumberImpl(sett.getMinimum(), sett.getMaximum(), sett.getAttempts());
         this.view = new ArrayList<>();
         this.view.add(new DrawNumberViewImpl());
         this.view.add(new DrawNumberViewLog());
@@ -63,7 +64,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *                 ignored
      */
     public static void main(final String... args) {
-        new DrawNumberApp();
+        new DrawNumberApp("config.yml");
     }
 
 }

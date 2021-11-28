@@ -6,49 +6,47 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class SettingsLoader {
-    private static int minimum;
-    private static int maximum;
-    private static int attempts;
-    private static boolean isLoaded;
+public final class SettingsLoader {
 
-    public static void loadSettings() {
-        try (InputStream in = ClassLoader.getSystemResourceAsStream("config.yml");
+    private static final int MIN = 0;
+    private static final int MAX = 100;
+    private static final int ATTEMPTS = 10;
+
+    private int minimum = MIN;
+    private int maximum = MAX;
+    private int attempts = ATTEMPTS;
+
+    public int getMinimum() {
+        return this.minimum;
+    }
+
+    public int getMaximum() {
+        return this.maximum;
+    }
+
+    public int getAttempts() {
+        return this.attempts;
+    }
+
+    public boolean getFromSettingsFromFile(final String fileName) {
+        try (InputStream in = ClassLoader.getSystemResourceAsStream(fileName);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));) {
             StringTokenizer row = new StringTokenizer(br.readLine());
             row.nextToken(":");
-            SettingsLoader.minimum = Integer.parseInt(row.nextToken().trim());
+            this.minimum = Integer.parseInt(row.nextToken().trim());
             row = new StringTokenizer(br.readLine());
             row.nextToken(":");
-            SettingsLoader.maximum = Integer.parseInt(row.nextToken().trim());
+            this.maximum = Integer.parseInt(row.nextToken().trim());
             row = new StringTokenizer(br.readLine());
             row.nextToken(":");
-            SettingsLoader.attempts = Integer.parseInt(row.nextToken().trim());
-            SettingsLoader.isLoaded = true;
+            this.attempts = Integer.parseInt(row.nextToken().trim());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return attempts > 0 && minimum < maximum;
     }
+    /*
+     * reset to default settings
+     * */
 
-    public static int getMinimum() {
-        checkLoaded();
-        return SettingsLoader.minimum;
-    }
-
-    public static int getMaximum() {
-        checkLoaded();
-        return SettingsLoader.maximum;
-    }
-
-    public static int getAttempts() {
-        checkLoaded();
-        return SettingsLoader.attempts;
-    }
-
-    private static void checkLoaded() {
-        if (!SettingsLoader.isLoaded) {
-            throw new IllegalStateException("Load file settings first");
-        }
-    }
 }
