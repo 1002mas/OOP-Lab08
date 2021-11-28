@@ -11,10 +11,11 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
     private final List<DrawNumberView> view;
 
     /**
-     * @param settingsFileName name of the file where the game setting are
+     * @param views                one or more ways to show the game 
+     * @param settingsFileName
+     *                             name of the file where the game setting are
      */
-    public DrawNumberApp(final String settingsFileName) {
-        // this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+    public DrawNumberApp(final String settingsFileName, final DrawNumberView... views) {
         SettingsLoader sett = new SettingsLoader();
         if (!sett.getFromSettingsFromFile(settingsFileName)) {
             sett = new SettingsLoader();
@@ -22,10 +23,8 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         System.out.println(sett.getMaximum());
         this.model = new DrawNumberImpl(sett.getMinimum(), sett.getMaximum(), sett.getAttempts());
         this.view = new ArrayList<>();
-        this.view.add(new DrawNumberViewImpl());
-        this.view.add(new DrawNumberViewLog());
-        this.view.add(new DrawNumberViewStdout());
-        for (final DrawNumberView v : view) {
+        for (final DrawNumberView v : views) {
+            view.add(v);
             v.setObserver(this);
             v.start();
         }
@@ -64,7 +63,7 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      *                 ignored
      */
     public static void main(final String... args) {
-        new DrawNumberApp("config.yml");
+        new DrawNumberApp("config.yml", new DrawNumberViewImpl(), new DrawNumberViewLog(), new DrawNumberViewStdout());
     }
 
 }
