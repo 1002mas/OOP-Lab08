@@ -67,7 +67,9 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         final String path = System.getProperty("user.home") + System.getProperty("file.separator") + "match_log.txt";
 
         try {
-            new DrawNumberApp("config.yml", new DrawNumberViewImpl(), new DrawNumberViewStream(path),
+            new DrawNumberApp("config.yml",
+                    new DrawNumberViewImpl(),
+                    new DrawNumberViewStream(path),
                     new DrawNumberViewStream(System.out));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
