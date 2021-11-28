@@ -100,12 +100,19 @@ public final class SimpleGUIWithFileChooser {
             public void actionPerformed(final ActionEvent e) {
                 final JFileChooser jfchoose = new JFileChooser();
                 final int opResult = jfchoose.showSaveDialog(northPanel);
-                if (opResult == JFileChooser.APPROVE_OPTION) {
+                switch (opResult) {
+                case JFileChooser.APPROVE_OPTION:
                     controller.setCurrentFile(jfchoose.getSelectedFile().getAbsolutePath());
                     fileSelected.setText(controller.getFilePath());
-                } else if (opResult != JFileChooser.CANCEL_OPTION) {
+                    break;
+                case JFileChooser.CANCEL_OPTION:
+                    break;
+                default:
                     JOptionPane.showMessageDialog(northPanel, "Unexpected error occurred");
+                    // just not to see warnings
+                    break;
                 }
+
             }
         });
         northPanel.add(fileSelector, BorderLayout.LINE_END);
